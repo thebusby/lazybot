@@ -25,8 +25,11 @@
                  [socrates "0.0.1"]
                  [innuendo "0.1.4"]
                  [frinj "0.1.2"]
-                 [tentacles "0.2.1"]]
+                 [tentacles "0.2.1"]
+                 [twitter-api "0.6.10"]
+                 [org.clojure/core.incubator "0.1.1"]]
   :uberjar-name "lazybot.jar"
   :main lazybot.run
   :copy-deps true
-  :resources-path "resource")
+  :resources-path "resource"
+  :dev-dependencies [[swank-clojure "1.4.2"]])

@@ -91,3 +91,50 @@ be added to the end of the string, trimming again to fit into the maximum size."
   "Prefix a nick to a message."
   [nick & s]
   (apply str nick ": " s))
+
+
+
+;; Various utilities to handle with font style and color
+
+(definline irc-code
+  "Return a function which will wrap a string in an IRC text code"
+  [irc-code text]
+  `(str ~irc-code ~text ~irc-code))
+
+(defn bold-str
+  "Return as bold text"
+  [text]
+  (irc-code "\u0002" text))
+
+(defn emphasize-str
+  "Return as italic/reverse text"
+  [text]
+  (irc-code "\u0016" text))
+
+(defn underline-str
+  "Return as italic/reverse text"
+  [text]
+  (irc-code "\u001F" text))
+
+;; Maps the IRC color codes
+(def irc-color-codes {:white       \u0300
+                      :black       \u0301
+                      :blue        \u0302
+                      :green       \u0303
+                      :red         \u0304
+                      :brown       \u0305
+                      :purple      \u0306
+                      :orange      \u0307
+                      :yellow      \u0308
+                      :light-green \u0309
+                      :teal        \u0310
+                      :light-cyan  \u0311
+                      :light-blue  \u0312
+                      :pink        \u0313
+                      :grey        \u0314
+                      :light-grey  \u0315})
+
+(defn color-str
+  "Return text in the color requested"
+  [color text]
+  (irc-code (color irc-color-codes) text))

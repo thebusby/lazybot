@@ -1,5 +1,5 @@
 (ns lazybot.plugins.google
-  (:use [lazybot registry [utilities :only [trim-string]]]
+  (:use [lazybot registry [utilities :only [trim-string bold-str underline-str]]]
         [clojure.data.json :only [read-json]])
   (:require [clojure.string :as s]
             [clj-http.client :as http])
@@ -22,12 +22,17 @@
                   (if-not (seq (s/trim argstr))
                     (str "No search term!")
                     (let [[res-count {title :titleNoFormatting
-                                      url :url}] (-> argstr google cull)]
+                                      url :url
+                                      content :content
+                                      }] (-> argstr google cull)]
                       (str "["
                            (trim-string 80 (constantly "...")
                                         (StringEscapeUtils/unescapeHtml title))
                            "] "
-                           (URLDecoder/decode url "UTF-8")))))))
+                           (bold-str (URLDecoder/decode url "UTF-8"))
+                           "   => \""
+                           (underline-str (StringEscapeUtils/unescapeHtml content))
+                           "\""))))))
 
 (defplugin
   (:cmd
@@ -41,6 +46,12 @@
    #{"wiki"}
    (fn [args]
      (handle-search (assoc args :args (conj (:args args) "site:en.wikipedia.org")))))
+
+  (:cmd
+   "Searches urban-dictionary via google."
+   #{"udict"}
+   (fn [args]
+     (handle-search (assoc args :args (conj (:args args) "site:www.urbandictionary.com")))))
 
   (:cmd
    "Searches encyclopediadramtica via google."
