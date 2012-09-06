@@ -1,10 +1,9 @@
 ; Written by TheBusby <thebusby@gmail.com>
 ; Licensed under the EPL
 (ns lazybot.plugins.youtube
-  (:use [lazybot registry info [utilities :only [bold-str]]]
+  (:use [lazybot registry [utilities :only [bold-str]]]
         [clojure.data.json :only [read-json]]
-        [clojure.core.incubator :only [-?>>]]
-        [somnium.congomongo :only [fetch fetch-one insert! destroy!]])
+        [clojure.core.incubator :only [-?>>]])
   (:require [clj-http.client :as http]))
 
 (defn get-youtube-data [vid]
@@ -27,5 +26,7 @@
                                       "Views: "  (bold-str (:viewCount fields)) "  "
                                       "Rating: " (bold-str (:rating fields)))))))
   
-  (:indexes [[:server :channel :nick]]))
+;;  (:indexes [[:server :channel :nick]])
+
+  )
 
